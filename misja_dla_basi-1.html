@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Misja dla Basi 🌹</title>
+<style>
+:root{color-scheme:light dark;--bg:#160d13;--card:#24141d;--card2:#301923;--text:#fff5f7;--muted:#d9bdc6;--accent:#f08ba2;--accent2:#ffd6df;--border:#56303d;--good:#a8e6c1;}
+*{box-sizing:border-box} body{margin:0;background:#160d13;color:var(--text);font-family:Georgia,'Times New Roman',serif;min-height:100vh}
+#app{min-height:100vh;background:radial-gradient(circle at 50% 0%,#49202f 0,#160d13 52%);display:flex;align-items:center;justify-content:center;padding:24px}
+.shell{width:min(720px,100%)}
+.card{background:rgba(36,20,29,.96);border:1px solid var(--border);border-radius:24px;padding:30px;box-shadow:0 22px 70px rgba(0,0,0,.35);text-align:center}
+.rose{font-size:54px;animation:pulse 2.4s infinite}.eyebrow{color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-size:12px;font-weight:700}.title{font-size:clamp(34px,8vw,62px);margin:10px 0 8px;line-height:1}.subtitle{color:var(--muted);font-size:17px;line-height:1.6;margin:0 auto 24px;max-width:560px}
+button{font:inherit;border:0;border-radius:14px;padding:13px 20px;cursor:pointer;background:var(--accent);color:#260d16;font-weight:700;transition:.2s}button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.progress{height:7px;background:#3a202a;border-radius:99px;overflow:hidden;margin:0 0 24px}.bar{height:100%;width:0;background:linear-gradient(90deg,#d95f7b,#ffd0da);transition:.45s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:10px}.riddle{font-size:22px;line-height:1.5;margin:24px 0}.hint{color:var(--muted);font-size:14px;margin:8px 0 18px}.input{width:100%;padding:14px;border:1px solid var(--border);border-radius:13px;background:#170e13;color:var(--text);font:inherit;text-align:center;outline:none}.input:focus{border-color:var(--accent)}
+.feedback{min-height:28px;margin:14px 0;color:var(--accent2);font-weight:700}.wrong{color:#ffabbc}.success{color:var(--good)}
+.choice{display:grid;gap:10px;margin-top:16px}.choice button{background:#3a202a;color:var(--text);border:1px solid var(--border)}.choice button.correct{background:#214d39}.choice button.wrongbtn{background:#5a2433}
+.letter{background:linear-gradient(145deg,#3a1e29,#23131b);padding:22px;border:1px solid var(--border);border-radius:18px;line-height:1.75;font-size:17px;text-align:left}.finalRose{font-size:72px;margin:14px}.small{color:var(--muted);font-size:13px;margin-top:22px}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@media(max-width:520px){#app{padding:12px}.card{padding:22px 17px}.riddle{font-size:19px}}
+</style>
+</head>
+<body>
+<div id="app"><main class="shell"><section class="card" id="screen"></section></main></div>
+<script>
+const levels=[
+ {q:'Zaczęło się od miejsca, w którym najpierw poznaliśmy się w internecie. Gdzie to było?',a:['facebook','fb'],hint:'Portal społecznościowy, na którym zaczęła się nasza historia.'},
+ {q:'A gdzie po raz pierwszy spotkaliśmy się na żywo?',a:['auchan'],hint:'Duży sklep, który dobrze znasz.'},
+ {q:'Podaj dzień, miesiąc i rok, od którego jesteśmy razem.',a:['23 października 2024','23.10.2024','23 10 2024','23/10/2024'],hint:'To jedna z najważniejszych dat w naszej historii.'},
+ {q:'Na pierwszej randce najpierw poszliśmy w miejsce, gdzie można spokojnie usiąść przy kawie. Co to było?',a:['kawiarnia'],hint:'Potem pojechaliśmy jeszcze w jedno ważne dla nas miejsce.'},
+ {q:'Po kawiarni pojechaliśmy na miejsce pełne zieleni i spacerowych alejek. Gdzie?',a:['bolko','wyspa bolko','bolko opole'],hint:'To miejsce w Opolu.'},
+ {q:'Jest rzecz, której nie trzeba nam tłumaczyć. Dokończ zdanie: „Zdrada to tylko dla…”',a:['słabych','slabych'],hint:'Jedno słowo.'},
+ {q:'Mam dla Ciebie małą zagadkę: co jest czerwone, piękne i tym razem będzie częścią Twojej nagrody?',a:['róża','roza','róże','roze'],hint:'Pachnie i kojarzy się z miłością.'},
+ {q:'Ile zagadek miałaś rozwiązać w tej małej misji?',a:['10','dziesięć','dziesiec'],hint:'Policz etapy tej gry.'},
+ {q:'Co jest ważniejsze od idealnego prezentu: rzecz czy wspomnienie, które tworzymy razem?',a:['wspomnienie','wspomnienia','wspolne wspomnienie'],hint:'Wybierz słowo, które najbardziej pasuje do naszej historii.'},
+ {q:'Ostatnia zagadka: czego najbardziej chcę, żebyśmy mieli jeszcze bardzo dużo?',a:['czasu','wspólnego czasu','wspolnego czasu'],hint:'Nie da się tego kupić, ale można to sobie podarować.'}
+];
+let i=0;
+const screen=document.getElementById('screen');
+function start(){screen.innerHTML=`<div class="rose">🌹</div><div class="eyebrow">Tylko dla Basi</div><h1 class="title">Misja dla Basi</h1><p class="subtitle">Mam dla Ciebie 10 zagadek. Każda prowadzi Cię trochę bliżej finału. Nie spiesz się — ta mała podróż jest tylko dla Ciebie.</p><button onclick="next()">Rozpoczynam misję</button><div class="small">23.10.2024 → ∞</div>`}
+function norm(s){return s.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9ąćęłńóśźż ]/gi,'').replace(/\s+/g,' ')}
+function next(){if(i>=levels.length){final();return} const l=levels[i];screen.innerHTML=`<div class="meta"><span>Zagadka ${i+1} z 10</span><span>${Math.round(i/10*100)}%</span></div><div class="progress"><div class="bar" style="width:${i/10*100}%"></div></div><div class="eyebrow">Krok ${i+1}</div><div class="riddle">${l.q}</div><div class="hint">💡 ${l.hint}</div><input class="input" id="ans" autocomplete="off" placeholder="Wpisz odpowiedź..."><div class="feedback" id="fb"></div><button onclick="check()">Sprawdź</button>`;document.getElementById('ans').focus();document.getElementById('ans').addEventListener('keydown',e=>{if(e.key==='Enter')check()})}
+function check(){const l=levels[i], v=norm(document.getElementById('ans').value), ok=l.a.some(x=>norm(x)===v);const fb=document.getElementById('fb');if(ok){fb.className='feedback success';fb.textContent=i===9?'✓ Ostatnia odpowiedź jest poprawna.':'✓ Dobrze!';i++;setTimeout(next,650)}else{fb.className='feedback wrong';fb.textContent='Jeszcze nie… spróbuj ponownie.'}}
+function final(){screen.innerHTML=`<div class="finalRose">🌹</div><div class="eyebrow">Misja ukończona</div><h1 class="title">Brawo, Basia!</h1><p class="subtitle">Rozwiązałaś wszystkie 10 zagadek. A teraz najważniejsza część:</p><div class="letter"><strong>Twoja nagroda czeka.</strong><br><br>Jedna piękna róża 🌹 — bo właśnie o nią prosiłaś.<br><br>I jeśli będziesz chciała, do róży dołączy też książka, żeby ten mały prezent miał jeszcze jedną historię do opowiedzenia.<br><br>Najważniejsze jednak, że jesteś Ty i że od <strong>23 października 2024</strong> piszemy naszą wspólną historię.</div><p class="small">Koniec gry. Początek kolejnego wspólnego wspomnienia.</p>`}
+start();
+</script>
+</body>
+</html>
